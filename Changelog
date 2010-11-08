@@ -1,0 +1,17 @@
+18-07-2003
+----------
+
+First Release :)
+
+21-07-2003
+----------
+
+Ooops, some (important) bugs in first release. 
+A mistake in Scanf use in parse function. 
+All exceptions are catched.
+
+Working release O:)
+
+----------
+
+Added Game Option control functions

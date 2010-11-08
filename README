@@ -1,0 +1,113 @@
+                             _            _   _                 _
+          ___ __ _ _ __ ___ | |      _ __| |_| |__   __ _ _ __ (_)
+         / __/ _` | '_ ` _ \| |_____| '__| __| '_ \ / _` | '_ \| |
+        | (_| (_| | | | | | | |_____| |  | |_| |_) | (_| | |_) | |
+         \___\__,_|_| |_| |_|_|     |_|   \__|_.__/ \__,_| .__/|_|
+                                                         |_|
+
+                                                    by Keymon
+
+   Copyright (C) 2003
+            Hector Rivas Gandara (Keymon) <keymon(at)wanadoo.es>
+
+
+caml-rtbapi is a library to easily implement in caml language robots 
+for the realtimebattle game.
+
+Caml-RTBApi is a library for Objective Caml Language to easily implement 
+robots for the realtimebattle game. It offers a layer of abstraction, 
+allowing the programmer to center in the robot logic.
+
+
+Requirements
+------------
+
+  Objective Caml version v3.XX (tested with version 3.06)
+
+Compile
+-------
+
+   Just execute make.
+
+Use
+---
+
+   There are two parts, messages from server to robots and 
+   messages from robots to server.
+   
+   To implement your robot, you have to inherit the robot virtual (abstract
+   class. Each method of the class corresponds to a message from the server.
+	
+ 	 class virtual robot :
+		object
+		  method collision : object_type -> float -> unit
+		  method coordinates : float -> float -> float -> unit
+		  method dead : unit
+		  method energy : int -> unit
+		  method exitRobot : unit
+		  method gameFinishes : unit
+		  method gameOption : game_option_type -> float -> unit
+		  method gameStarts : unit
+		  method info : float -> float -> float -> unit
+		  method initialize : bool -> unit
+		  method radar : float -> object_type -> float -> unit
+		  method robotInfo : float -> bool -> unit
+		  method robotsLeft : int -> unit
+		  method rotationReached : rotate_type list -> unit
+		  method warning : warning_type -> string -> unit
+		  method yourColour : int -> unit
+		  method yourName : string -> unit
+		end
+
+   To send messages to the server, you have a set of functions:
+   
+      val robotOption : robot_option_type -> int -> unit
+      val name : string -> unit
+      val colour : int -> int -> unit
+      val rotate : rotate_type list -> float -> unit
+      val rotateTo : rotate_type list -> float -> float -> unit
+      val rotateAmount : rotate_type list -> float -> float -> unit
+      val sweep : rotate_type list -> float -> float -> float -> unit
+      val accelerate : float -> unit
+      val brake : float -> unit
+      val shoot : float -> unit
+      val print : string -> unit
+      val debug : string -> unit
+      val debugLine : float -> float -> float -> float -> unit
+      val debugCircle : float -> float -> float -> unit
+      val robot_running : bool ref
+      val exitRobot : unit -> unit
+		
+	By default, gameOption calls setGameOption function, that saves the game
+	options. You can get the value of each option by calling getGameOption
+		
+		val setGameOption : game_option_type -> float -> unit
+		val getGameOption : game_option_type -> float
+		
+
+   The robot should call the 'scanner : robot -> unit' with a instance of
+   your robot class as param. This function sets the robot to receive 
+   a signal when there is a message from server, setting 
+   'parser : robot -> unit' to parse the input. Then, it enters in a loop
+   that waits for the condition 'robot_running'.
+
+   You can build your own scanner function.
+
+	You can generate the documentation with camldoc (make doc-html). For 
+	more information use the interface definition (rtbapi.mli) and read
+	the realtimebattle documentation:
+	
+	http://realtimebattle.sourceforge.net/Documentation/RealTimeBattle.html
+
+	See also the example robot in caml-rtbapi/example/.
+   
+Contact
+-------
+   
+   To report bugs or comment anything, you can contact at:
+
+      *  keymon(at)wanadoo.es
+
+
+Enjoy It!
+
